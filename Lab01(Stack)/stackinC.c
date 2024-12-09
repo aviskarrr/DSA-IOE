@@ -15,7 +15,7 @@ bool isEmpty(){
 }
 
 bool isFull(){
-    if(top == MAXSIZE - 1){  // Corrected condition
+    if(top == MAXSIZE - 1){  
         return true;
     }
     else{
