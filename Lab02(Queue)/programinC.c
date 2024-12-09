@@ -41,7 +41,7 @@ int dequeue() {
     int num;
     if (!isEmp()) {
         num = queue[front];
-        if (front == rear) { 
+        if (front == rear) { //case when there is only one element in the queue
             front = -1;
             rear = -1;
         } else {
