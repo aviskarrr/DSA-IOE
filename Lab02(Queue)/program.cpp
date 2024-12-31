@@ -35,6 +35,7 @@ void enqueue(int num){
     }
 }
 
+
 int dequeue(){///how dequeue works? >> it removes the first element of the queue
 //and shifts all the elements to the left
 //so that the second element becomes the first element
