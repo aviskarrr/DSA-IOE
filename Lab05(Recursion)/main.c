@@ -27,9 +27,12 @@ int fibo(int n){
 
 int toh(int n, char A, char B, char C){
     if(n>0){
-        toh(n-1,A,C,B);
+        int moves = 0;
+        moves+=toh(n-1,A,C,B);
         printf("Disk moved from %c to % c\n", A, C);
-        toh(n-1, B, A, C);
+        moves++;
+        moves+= toh(n-1, B, A, C);
+        return moves;
     }
     else{
         return 0;
@@ -39,6 +42,7 @@ int toh(int n, char A, char B, char C){
 
 int main(){
     int n;
+    // char A='A', B='B', C='C';
     printf("Enter a number: ");
     scanf("%d", &n);
     printf("Factorial of %d is %d\n", n, factorial(n));
@@ -46,6 +50,9 @@ int main(){
 
     printf("Enter the number of disks: ");
     scanf("%d", &n);
-    toh(n, 'A', 'B', 'C');
+    // toh(n, 'A', 'B', 'C');
+    int f = toh(n, 'A', 'B', 'C');
+    printf("Total moves: %d\n", f);
+
     return 0;
 }
