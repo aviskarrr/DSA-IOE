@@ -81,6 +81,14 @@ void merge(int arr[], int l, int m, int r) {
     free(L);
     free(R);
 }
+// external sort
+//working:
+// 1. divide the array into two halves
+// 2. sort the first half
+// 3. sort the second half
+// 4. merge the two halves
+// 5. repeat the process until the array is sorted
+
 
 void mergeSort(int arr[], int l, int r) {
     if (l < r) {
@@ -111,6 +119,13 @@ void quickSort(int arr[], int left, int right){
         quickSort(arr, pivot+1, right);
     }
 }
+
+//working of quick sort:
+// 1. select a pivot element
+// 2. place the pivot element in its correct position
+// 3. place all smaller elements to the left of the pivot and all greater elements to the right of the pivot
+// 4. repeat the process for the left and right sub-arrays
+
 
 void printArray(int arr[], int n) {
     for (int i = 0; i < n; i++)
@@ -148,3 +163,29 @@ int main() {
 
     return 0;
 }
+
+
+//discussion about aforementioned sorting algorithms and their time complexity
+// 1. Bubble Sort:
+// Time Complexity: O(n^2)
+// Bubble sort is a simple sorting algorithm that repeatedly steps through the list, compares adjacent elements and swaps them if they are in the wrong order. The pass through the
+// list is repeated until the list is sorted.
+// 2. Selection Sort:
+// Time Complexity: O(n^2)
+// Selection sort is an in-place comparison sorting algorithm. It divides the input list into two parts: the sublist of items already sorted and the sublist of items remaining to be
+// sorted. It repeatedly selects the minimum element from the unsorted sublist and swaps it with the leftmost unsorted element.
+// 3. Insertion Sort:
+// Time Complexity: O(n^2)
+// Insertion sort is a simple sorting algorithm that builds the final sorted array one item at a time. It iterates through the list, removes one element, and then inserts it into the
+// correct position in the sorted list.
+// 4. Merge Sort:
+// Time Complexity: O(n log n)
+// Merge sort is a divide and conquer algorithm that divides the input array into two halves, recursively sorts the two halves, and then merges the sorted halves. It is a stable
+// sorting algorithm and has a time complexity of O(n log n).
+// 5. Quick Sort:
+// Time Complexity: O(n^2) (worst case), O(n log n) (average case)
+// Quick sort is a divide and conquer algorithm that selects a pivot element and partitions the array into two sub-arrays according to the pivot. It then recursively sorts the two
+// sub-arrays. The time complexity of quick sort is O(n^2) in the worst case and O(n log n) in the average case. It is an in-place sorting algorithm and is widely used due to its
+// efficiency.
+
+// among them merge sort is the most efficient sorting algorithm with a time complexity of O(n log n) in all cases. It is a stable sorting algorithm and is suitable for sorting large
