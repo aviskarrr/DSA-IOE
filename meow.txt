@@ -1,0 +1,897 @@
+[STACK]
+
+#include<stdio.h>
+#include<stdbool.h>
+#include<stdlib.h>
+#define MAXSIZE 10
+int stack[MAXSIZE];
+int top = -1;
+
+bool isEmpty(){
+    if(top == -1){
+        return true;
+    }
+    else{
+        return false;
+    }
+}
+
+bool isFull(){
+    if(top == MAXSIZE - 1){  
+        return true;
+    }
+    else{
+        return false;
+    }
+}
+
+void push(int num){
+    if(!isFull()){
+        top += 1;
+        stack[top] = num;
+        printf("Pushed %d successfully!\n", num);
+    }
+    else{
+        printf("Couldn't insert, stack is full!\n");
+    }
+}
+
+int pop(){
+    int num;
+    if(!isEmpty()){
+        num = stack[top];  // Get the top item BEFORE decrementing
+        top -= 1;
+        printf("Popped %d\n", num);
+        return num;
+    }
+    else{
+        printf("Couldn't pop, stack is empty!\n");
+        return -1;
+    }
+}
+
+int main(){
+    int choice, num;
+    
+    while (1)
+    {
+        printf("\nStack Operations Menu:\n");
+        printf("1. Push (max limit is 10 datas)\n");
+        printf("2. Pop (max limit is 10 datas)\n");
+        printf("3. Display\n");
+        printf("4. Exit\n");
+        printf("Enter your choice: ");
+        scanf("%d", &choice);
+
+        switch (choice)
+        {
+        case 1:
+            printf("Enter the number you want to push: ");
+            scanf("%d", &num);
+            push(num);
+            break;
+        case 2:
+            pop();
+            break;
+        case 3:
+            if (isEmpty()) {
+                printf("Stack is empty!\n");
+            } else {
+                printf("Stack contents:\n");
+                for(int i = 0; i <= top; i++){
+                    printf("%d ", stack[i]);
+                }
+                printf("\n");
+            }
+            break;
+        case 4:
+            exit(0);
+        
+        default:
+            printf("Invalid choice. Please try again.\n");
+        }
+    }
+    return 0;
+}
+
+
+
+[QUEUE]
+
+#include<stdio.h>
+#include<stdbool.h>
+#include<stdlib.h>
+#define MAX 10
+int queue[MAX];
+int front = -1;
+int rear = -1;
+
+bool isEmp(){
+    if(front ==-1){
+        return true;
+    }
+    else{
+        return false;
+    }
+}
+
+bool isFull(){
+    if(front==MAX-1){
+        return true;
+    }
+    else{
+        return false;
+    }
+}
+
+void enqueue(int num) {
+    if (!isFull()) {
+        if (isEmp()) { // If the queue is initially empty
+            front = 0;
+        }
+        rear++;
+        queue[rear] = num;
+        printf("Enqueued %d successfully!\n", num);
+    } else {
+        printf("Couldn't insert, queue is full!\n");
+    }
+}
+
+int dequeue() {
+    int num;
+    if (!isEmp()) {
+        num = queue[front];
+        if (front == rear) { //case when there is only one element in the queue
+            front = -1;
+            rear = -1;
+        } else {
+            front++;
+        }
+        printf("Dequeued %d successfully!\n", num);
+        return num;
+    } else {
+        printf("Couldn't dequeue, queue is empty!\n");
+        return -1;
+    }
+}
+
+int main() {
+    int choice, num;
+    while (1) { // Infinite loop, exit when choice is 0
+        printf("\nMenu:\n");
+        printf("1. Enqueue\n");
+        printf("2. Dequeue\n");
+        printf("3. Display Queue\n");
+        printf("0. Exit\n");
+        printf("Enter your choice: ");
+        scanf("%d", &choice);
+
+        switch (choice) {
+            case 1:
+                printf("Enter the number to be enqueued: ");
+                scanf("%d", &num);
+                enqueue(num);
+                break;
+
+            case 2:
+                dequeue();
+                break;
+
+            case 3:
+                if (isEmp()) {
+                    printf("Queue is empty!\n");
+                } else {
+                    printf("Queue elements are:\n");
+                    for (int i = front; i <= rear; i++) {
+                        printf("%d ", queue[i]);
+                    }
+                    printf("\n");
+                }
+                break;
+
+            case 0:
+                printf("Exiting the program.\n");
+                return 0; // Exit the program
+
+            default:
+                printf("Invalid choice, please try again.\n");
+                break;
+        }
+    }
+}
+
+
+
+
+
+[DOUBLY]
+
+#include<stdio.h>
+#include<stdlib.h>
+
+struct Node{
+    int data;
+    struct Node* next;
+    struct Node* prev;
+};
+
+struct Node* head = NULL;
+
+void insAtBeg(){
+    struct Node* newNode = (struct Node*)malloc(sizeof(struct Node));
+    printf("Enter the data: ");
+    scanf("%d", &newNode->data);
+    if(head == NULL){
+        head = newNode;
+        newNode->next = NULL;
+        newNode->prev = NULL;
+    }
+    else{
+        newNode->next = head;
+        newNode->prev = NULL;
+        head->prev = newNode;
+        head = newNode;
+    }
+}
+void insAtEnd(){
+    struct Node* newNode = (struct Node*)malloc(sizeof(struct Node));
+    printf("Enter the data: ");
+    scanf("%d", &newNode->data);
+    if(head == NULL){//empty list
+        head = newNode;
+        newNode->next = NULL;
+        newNode->prev = NULL;
+    }
+    else{
+        struct Node* temp = head;
+        while(temp->next != NULL){
+            temp = temp->next;
+        }
+        temp->next = newNode;
+        newNode->prev = temp;
+        newNode->next = NULL;
+        
+    }
+}
+
+void insAtkth(){
+    struct Node* newNode = (struct Node*)malloc(sizeof(struct Node));
+    printf("Enter the data: ");
+    scanf("%d", &newNode->data);
+    int k;
+    printf("Enter the position: ");
+    scanf("%d", &k);
+    if(k ==1){
+        
+        if(head == NULL){
+            head = newNode;
+            newNode->next = NULL;
+            newNode->prev = NULL;
+        }   
+        else{
+            newNode->next = head;
+            newNode->prev = NULL;
+            head->prev = newNode;
+            head = newNode;
+        }
+    }
+    else{
+        struct Node* temp = head;
+        for(int i = 1; i < k-1; i++){
+            temp = temp->next;
+            if(temp == NULL){
+                printf("Invalid position\n");
+                return;
+            }
+        }
+        if(temp->next == NULL){
+            temp->next = newNode;
+            newNode->prev = temp;
+            newNode->next = NULL;
+        }
+        else{
+            newNode->next = temp->next;
+            newNode->prev = temp;
+            temp->next->prev = newNode;
+            temp->next = newNode;
+        }
+        
+    }
+}
+
+void delAtBeg(){
+    if(head==NULL){
+        printf("Void deletion");
+        exit(0);
+    }
+    struct Node* ptr = head;
+    head = head->next;
+    head->prev = NULL;
+    free(ptr);
+}
+void delAtEnd(){
+    if(head==NULL){
+        printf("Void deletion");
+        exit(0);
+    }
+
+    struct Node* temp = head;
+    while(temp->next !=NULL){
+        temp = temp->next;
+    }
+    temp->prev->next = NULL;
+    free (temp);
+}
+void delAtKth(){
+    if(head == NULL){
+        printf("Void deletion");
+        exit(0);
+    }
+    int k;
+    printf("Enter the position:");
+    scanf("%d",&k);
+    if(k==1){//deletion at beginning
+        delAtBeg();
+    }
+    else{
+        struct Node* ptr = head;
+        for(int i=1;i<k;i++){
+            ptr = ptr->next;
+            if(ptr==NULL){
+                printf("Invalid position");
+                return;
+            }
+        }
+        if(ptr->next ==NULL){
+            delAtEnd();
+        }
+        else{
+            ptr->prev->next = ptr->next;
+            ptr->next->prev = ptr->prev;
+            free(ptr);
+        }
+    }
+}
+
+void display(){
+    struct Node* temp = head;
+    while(temp != NULL){
+        printf("%d ", temp->data);
+        temp = temp->next;
+    }
+    printf("\n");
+}
+
+int main(){
+    int choice;
+    while(1){
+        printf("Enter your choice:\n");
+        printf("1. Insert at beginning\n");
+        printf("2. Insert at end\n");
+        printf("3. Insert at kth position\n");
+        printf("4. Delete at beginning\n");
+        printf("5. Delete at end\n");
+        printf("6. Delete at kth position\n");
+        printf("7. Display\n");
+        printf("8. Exit\n");
+        scanf("%d", &choice);
+        switch(choice){
+            case 1:
+                insAtBeg();
+                break;
+            case 2:
+                insAtEnd();
+                break;
+            case 3:
+                insAtkth();
+                break;
+            case 4:
+                delAtBeg();
+                break;
+            case 5:
+                delAtEnd();
+                break;
+            case 6:
+                delAtKth();
+                break;
+            case 7:
+                display();
+                break;
+            case 8:
+                exit(0);
+            default:
+                printf("Invalid choice\n");
+        }
+    }
+}
+
+
+
+
+
+[SINGLY]
+#include<stdio.h>
+#include<stdlib.h>
+
+struct Node{
+    int data;
+    struct Node* next;
+};
+
+struct Node* head = NULL;
+
+void insAtBeg(){
+    struct Node* newNode = (struct Node*)malloc(sizeof(struct Node));
+    printf("Enter the data: ");
+    scanf("%d", &newNode->data);
+    newNode->next = head;
+    head = newNode;
+}
+
+void insAtEnd(){
+    struct Node* newNode = (struct Node*)malloc(sizeof(struct Node));
+    printf("Enter the data: ");
+    scanf("%d", &newNode->data);
+    newNode->next = NULL;
+    
+    if(head == NULL){
+        head = newNode;
+    }
+    else{
+        struct Node* temp = head;
+        while(temp->next != NULL){
+            temp = temp->next;
+        }
+        temp->next = newNode;
+    }
+}
+
+void insAtkth(){
+    struct Node* newNode = (struct Node*)malloc(sizeof(struct Node));
+    printf("Enter the data: ");
+    scanf("%d", &newNode->data);
+    int k;
+    printf("Enter the position: ");
+    scanf("%d", &k);
+    
+    if(k == 1){
+        newNode->next = head;
+        head = newNode;
+    }
+    else{
+        struct Node* temp = head;
+        for(int i = 1; i < k - 1; i++){
+            if(temp == NULL){
+                printf("Invalid position\n");
+                return;
+            }
+            temp = temp->next;
+        }
+        newNode->next = temp->next;
+        temp->next = newNode;
+    }
+}
+
+void delAtBeg(){
+    if(head == NULL){
+        printf("Void deletion\n");
+        return;
+    }
+    struct Node* temp = head;
+    head = head->next;
+    free(temp);
+}
+
+void delAtEnd(){
+    if(head == NULL){
+        printf("Void deletion\n");
+        return;
+    }
+    if(head->next == NULL){
+        free(head);
+        head = NULL;
+        return;
+    }
+    struct Node* temp = head;
+    while(temp->next->next != NULL){
+        temp = temp->next;
+    }
+    free(temp->next);
+    temp->next = NULL;
+}
+
+void delAtKth(){
+    if(head == NULL){
+        printf("Void deletion\n");
+        return;
+    }
+    int k;
+    printf("Enter the position: ");
+    scanf("%d", &k);
+    
+    if(k == 1){
+        delAtBeg();
+    }
+    else{
+        struct Node* temp = head;
+        struct Node* prev = NULL;
+        for(int i = 1; i < k; i++){
+            prev = temp;
+            temp = temp->next;
+            if(temp == NULL){
+                printf("Invalid position\n");
+                return;
+            }
+        }
+        prev->next = temp->next;
+        free(temp);
+    }
+}
+
+void display(){
+    struct Node* temp = head;
+    while(temp != NULL){
+        printf("%d ", temp->data);
+        temp = temp->next;
+    }
+    printf("\n");
+}
+
+int main(){
+    int choice;
+    while(1){
+        printf("Enter your choice:\n");
+        printf("1. Insert at beginning\n");
+        printf("2. Insert at end\n");
+        printf("3. Insert at kth position\n");
+        printf("4. Delete at beginning\n");
+        printf("5. Delete at end\n");
+        printf("6. Delete at kth position\n");
+        printf("7. Display\n");
+        printf("8. Exit\n");
+        scanf("%d", &choice);
+        
+        switch(choice){
+            case 1:
+                insAtBeg();
+                break;
+            case 2:
+                insAtEnd();
+                break;
+            case 3:
+                insAtkth();
+                break;
+            case 4:
+                delAtBeg();
+                break;
+            case 5:
+                delAtEnd();
+                break;
+            case 6:
+                delAtKth();
+                break;
+            case 7:
+                display();
+                break;
+            case 8:
+                exit(0);
+            default:
+                printf("Invalid choice\n");
+        }
+    }
+}
+
+
+
+[RECURSION]
+
+#include<stdio.h>
+#include<stdlib.h>
+
+int factorial(int n){
+    if(n==0){
+        return 1;
+    }
+    else{
+        return n*factorial(n-1);
+    }
+}
+
+
+int fibo(int n){
+    if(n==0){
+        return 0;
+    }
+    if(n==1||n==2){
+        return 1;
+    }
+    else{
+        return fibo(n-1)+fibo(n-2);
+    }
+}
+
+
+int toh(int n, char A, char B, char C){
+    if(n>0){
+        int moves = 0;
+        moves+=toh(n-1,A,C,B);
+        printf("Disk moved from %c to % c\n", A, C);
+        moves++;
+        moves+= toh(n-1, B, A, C);
+        return moves;
+    }
+    else{
+        return 0;
+    }
+}
+
+
+int main(){
+    int n;
+    // char A='A', B='B', C='C';
+    printf("Enter a number: ");
+    scanf("%d", &n);
+    printf("Factorial of %d is %d\n", n, factorial(n));
+    printf("Fibonacci of %d is %d\n", n, fibo(n));
+
+    printf("Enter the number of disks: ");
+    scanf("%d", &n);
+    // toh(n, 'A', 'B', 'C');
+    int f = toh(n, 'A', 'B', 'C');
+    printf("Total moves: %d\n", f);
+
+    return 0;
+}
+
+
+[INFIX]
+
+#include<stdio.h>
+#include<stdlib.h>
+#include<string.h>
+int returnPrecedence(char c){
+
+    if(c=='^'){
+        return 3;
+    }
+    else if(c=='*' || c=='/'){
+        return 2;
+    }
+    else if(c=='+' || c=='-'){
+        return 1;
+    }
+    else{
+        return -1;
+    }
+}
+
+
+
+void infixToPostFix(char* exp) {
+    int len = strlen(exp);
+    char* result = (char*)malloc((len + 1) * sizeof(char)); // Dynamic allocation
+    char* stack = (char*)malloc(len * sizeof(char));        // Dynamic allocation
+    int top = -1;
+    int j = 0;
+
+    if (!result || !stack) {
+        printf("Memory allocation failed!\n");
+        free(result);
+        free(stack);
+        return;
+    }
+
+    for (int i = 0; i < len; i++) {
+        char current = exp[i];
+        
+        if ((current >= 'a' && current <= 'z') || 
+            (current >= 'A' && current <= 'Z')) {
+            result[j++] = current;
+        }
+        else if (current == '(') {
+            stack[++top] = current;
+        }
+        else if (current == ')') {
+            while (top != -1 && stack[top] != '(') {
+                result[j++] = stack[top--];
+            }
+            if (top != -1){ 
+                top--;
+            }
+        }
+        else {
+            while (top != -1 && 
+                    returnPrecedence(current) <= returnPrecedence(stack[top])) {
+                result[j++] = stack[top--];
+            }
+            stack[++top] = current;
+        }
+    }
+
+    while (top != -1) {
+        result[j++] = stack[top--];
+    }
+
+    result[j] = '\0';
+    printf("Postfix Expression: %s\n", result);
+    
+    free(result);
+    free(stack);
+}
+
+int main() {
+    char exp[50];
+    printf("Enter the infix expression: ");
+    scanf("%s", exp);
+    infixToPostFix(exp);
+    return 0;
+}
+
+[SORTING]
+
+#include <stdio.h>
+#include <stdlib.h>
+
+void swap(int *a, int *b) {
+    int temp = *a;
+    *a = *b;
+    *b = temp;
+}
+
+void bubbleSort(int arr[], int n) {
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < n - i - 1; j++) {
+            if (arr[j] > arr[j + 1]) {
+                swap(&arr[j], &arr[j + 1]);
+            }
+        }
+    }
+}
+
+
+void selectionSort(int arr[], int n) {
+    for (int i = 0; i < n - 1; i++) {
+        int min = i;
+        for (int j = i + 1; j < n; j++) {
+            if (arr[j] < arr[min]) {
+                min = j;
+            }
+        }
+        swap(&arr[min], &arr[i]);
+    }
+}
+
+void insertionSort(int arr[], int n) {
+    for (int i = 1; i < n; i++) {
+        int key = arr[i];
+        int j = i - 1;
+        while (j >= 0 && arr[j] > key) {
+            arr[j + 1] = arr[j];
+            j--;
+        }
+        arr[j + 1] = key;
+    }
+}
+
+void merge(int arr[], int l, int m, int r) {
+    int n1 = m - l + 1;
+    int n2 = r - m;
+
+    int *L = (int *)malloc(n1 * sizeof(int));
+    int *R = (int *)malloc(n2 * sizeof(int));
+
+    for (int i = 0; i < n1; i++)
+        L[i] = arr[l + i];
+    for (int i = 0; i < n2; i++)
+        R[i] = arr[m + 1 + i];
+
+    int i = 0, j = 0, k = l;
+    while (i < n1 && j < n2) {
+        if (L[i] <= R[j]) {
+            arr[k] = L[i];
+            i++;
+        } else {
+            arr[k] = R[j];
+            j++;
+        }
+        k++;
+    }
+
+    while (i < n1) {
+        arr[k] = L[i];
+        i++;
+        k++;
+    }
+
+    while (j < n2) {
+        arr[k] = R[j];
+        j++;
+        k++;
+    }
+
+    free(L);
+    free(R);
+}
+// external sort
+//working:
+// 1. divide the array into two halves
+// 2. sort the first half
+// 3. sort the second half
+// 4. merge the two halves
+// 5. repeat the process until the array is sorted
+
+
+void mergeSort(int arr[], int l, int r) {
+    if (l < r) {
+        int m = l + (r - l) / 2;
+        mergeSort(arr, l, m);
+        mergeSort(arr, m + 1, r);
+        merge(arr, l, m, r);
+    }
+}
+
+int partition(int arr[], int left, int right){
+    int pivot = arr [right];
+    int i = left -1;
+    for(int j = left; j<right; j++){
+        if(arr[j]<pivot){
+            i++;
+            swap(&arr[i], &arr[j]);
+        }
+    }
+    swap(&arr[i+1], &arr[right]);
+    return i+1;
+}
+
+void quickSort(int arr[], int left, int right){
+    if(left<right){
+        int pivot = partition(arr, left, right);
+        quickSort(arr, left, pivot-1);
+        quickSort(arr, pivot+1, right);
+    }
+}
+
+//working of quick sort:
+// 1. select a pivot element
+// 2. place the pivot element in its correct position
+// 3. place all smaller elements to the left of the pivot and all greater elements to the right of the pivot
+// 4. repeat the process for the left and right sub-arrays
+
+
+void printArray(int arr[], int n) {
+    for (int i = 0; i < n; i++)
+        printf("%d ", arr[i]);
+    printf("\n");
+}
+
+int main() {
+    int arr1[] = {10, 9, 8, 7, 6, 5, 4, 3, 2, 1};
+    int arr2[] = {10, 9, 8, 7, 6, 5, 4, 3, 2, 1};
+    int arr3[] = {10, 9, 8, 7, 6, 5, 4, 3, 2, 1};
+    int arr4[] = {10, 9, 8, 7, 6, 5, 4, 3, 2, 1};
+    int arr5[] = {10, 9, 8, 7, 6, 5, 4, 3, 2, 1};
+    int n = 10;
+
+    bubbleSort(arr1, n);
+    printf("Bubble Sort: ");
+    printArray(arr1, n);
+
+    selectionSort(arr2, n);
+    printf("Selection Sort: ");
+    printArray(arr2, n);
+
+    insertionSort(arr3, n);
+    printf("Insertion Sort: ");
+    printArray(arr3, n);
+
+    mergeSort(arr4, 0, n - 1);
+    printf("Merge Sort: ");
+    printArray(arr4, n);
+
+    quickSort(arr5, 0, n - 1);
+    printf("Quick Sort: ");
+    printArray(arr5, n);
+
+    return 0;
+}
+
